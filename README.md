@@ -1,5 +1,7 @@
 # Awesome Global AI
 
+![Awesome Global AI — curated directory](assets/awesome-global-ai.webp)
+
 A verified, structured, and browsable directory of leading AI organizations, researchers, scientific resources, media, and official social accounts from around the world.
 
 **382 entries:** 175 organizations · 103 people · 47 media sources · 57 scientific resources.

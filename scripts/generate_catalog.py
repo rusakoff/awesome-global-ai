@@ -200,6 +200,8 @@ def build_readme(catalog: dict[str, list[dict[str, str]]]) -> str:
     lines = [
         "# Awesome Global AI",
         "",
+        "![Awesome Global AI — curated directory](assets/awesome-global-ai.webp)",
+        "",
         "A verified, structured, and browsable directory of leading AI organizations, "
         "researchers, scientific resources, media, and official social accounts from around the world.",
         "",
