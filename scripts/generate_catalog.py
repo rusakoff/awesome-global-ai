@@ -20,7 +20,6 @@ TITLES = {
 
 README_SECTIONS = {
     "organizations": {
-        "icon": "🏢",
         "title": "Organizations",
         "intro": (
             "Frontier labs, university centers, open-source communities, infrastructure "
@@ -28,7 +27,6 @@ README_SECTIONS = {
         ),
     },
     "people": {
-        "icon": "🧠",
         "title": "Researchers and leaders",
         "intro": (
             "Researchers, engineers, founders, and policy leaders whose work has shaped "
@@ -36,7 +34,6 @@ README_SECTIONS = {
         ),
     },
     "media": {
-        "icon": "🎙️",
         "title": "Media and education",
         "intro": (
             "Technical YouTube channels, podcasts, newsletters, courses, and research "
@@ -44,7 +41,6 @@ README_SECTIONS = {
         ),
     },
     "resources": {
-        "icon": "🔬",
         "title": "Scientific resources",
         "intro": (
             "Paper indexes, model and dataset hubs, benchmarks, conferences, journals, "
@@ -54,13 +50,12 @@ README_SECTIONS = {
 }
 
 ACCOUNT_LABELS = [
-    ("🌐", "Website", "website"),
-    ("⌨️", "GitHub", "github"),
-    ("▶️", "YouTube", "youtube"),
-    ("𝕏", "X", "x"),
-    ("💼", "LinkedIn", "linkedin"),
-    ("🤗", "Hugging Face", "huggingface"),
-    ("🎓", "Scholar", "scholar"),
+    ("GitHub", "github"),
+    ("YouTube", "youtube"),
+    ("X", "x"),
+    ("LinkedIn", "linkedin"),
+    ("Hugging Face", "huggingface"),
+    ("Scholar", "scholar"),
 ]
 
 
@@ -95,34 +90,36 @@ def display_kind(value: str) -> str:
 
 def readme_account_links(row: dict[str, str]) -> str:
     return " · ".join(
-        f"[{icon} {label}]({row[field]})"
-        for icon, label, field in ACCOUNT_LABELS
+        f"[{label}]({row[field]})"
+        for label, field in ACCOUNT_LABELS
         if row.get(field)
     )
 
 
 def readme_metadata(row: dict[str, str], entity_type: str) -> str:
-    items = [f"📍 {md(row['country'])}"]
+    items = [md(row["country"])]
     if entity_type == "people" and row.get("affiliation"):
-        items.append(f"🏛️ {md(row['affiliation'])}")
+        items.append(md(row["affiliation"]))
     if entity_type == "media" and row.get("language"):
-        items.append(f"💬 {md(row['language'])}")
+        items.append(md(row["language"]))
     if row.get("kind"):
-        items.append(f"🧩 {md(display_kind(row['kind']))}")
+        items.append(md(display_kind(row["kind"])))
     tier = row["tier"]
-    items.append("📚 Reference" if tier == "Reference" else f"⭐ Tier {tier}")
+    items.append("Reference" if tier == "Reference" else f"Tier {tier}")
     return " · ".join(items)
 
 
 def readme_entry(row: dict[str, str], entity_type: str) -> list[str]:
     topics = " · ".join(f"`{md(tag)}`" for tag in split_tags(row["focus"]))
-    return [
+    lines = [
         f"- **{link(row['name'], row['website'])}** — {md(row['description'])}  ",
         f"  {readme_metadata(row, entity_type)}  ",
-        f"  {readme_account_links(row)}  ",
-        f"  🏷️ {topics}",
-        "",
     ]
+    accounts = readme_account_links(row)
+    if accounts:
+        lines.append(f"  {accounts}  ")
+    lines.extend([f"  Topics: {topics}", ""])
+    return lines
 
 
 def grouped_rows(
@@ -214,18 +211,18 @@ def build_readme(catalog: dict[str, list[dict[str, str]]]) -> str:
         "",
         "## Explore the catalog",
         "",
-        f"- [🏢 Organizations — {orgs}](#organizations)",
-        f"- [🧠 Researchers and leaders — {people}](#researchers-and-leaders)",
-        f"- [🎙️ Media and education — {media}](#media-and-education)",
-        f"- [🔬 Scientific resources — {resources}](#scientific-resources)",
+        f"- [Organizations — {orgs}](#organizations)",
+        f"- [Researchers and leaders — {people}](#researchers-and-leaders)",
+        f"- [Media and education — {media}](#media-and-education)",
+        f"- [Scientific resources — {resources}](#scientific-resources)",
         "",
-        "Each name opens the primary website. The icon links lead directly to official "
+        "Each name opens the primary website. Additional links lead directly to official "
         "profiles on GitHub, YouTube, X, LinkedIn, Hugging Face, or Google Scholar. "
         "Topic tags make narrow specialties easy to scan.",
         "",
-        "**Tier guide:** ⭐ **A** — field-defining · **B** — major contributor · "
+        "**Tier guide:** **A** — field-defining · **B** — major contributor · "
         "**C** — authoritative specialist · **D** — emerging project · "
-        "📚 **Reference** — research infrastructure that is not ranked competitively.",
+        "**Reference** — research infrastructure that is not ranked competitively.",
         "",
         "---",
         "",
@@ -243,7 +240,7 @@ def build_readme(catalog: dict[str, list[dict[str, str]]]) -> str:
             [
                 f'<a id="{anchors[entity_type]}"></a>',
                 "",
-                f"## {section['icon']} {section['title']}",
+                f"## {section['title']}",
                 "",
                 f"{section['intro']} **{len(rows)} entries.**",
                 "",
@@ -255,7 +252,7 @@ def build_readme(catalog: dict[str, list[dict[str, str]]]) -> str:
             lines.extend([f"### {md(category)} ({len(category_rows)})", ""])
             for row in category_rows:
                 lines.extend(readme_entry(row, entity_type))
-        lines.extend(["[↑ Back to catalog navigation](#explore-the-catalog)", "", "---", ""])
+        lines.extend(["[Back to catalog navigation](#explore-the-catalog)", "", "---", ""])
 
     lines.extend(
         [
