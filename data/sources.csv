@@ -1,0 +1,10 @@
+id,name,kind,url,scope,license_or_terms,checked_at
+stanford-ai-index-2026,Stanford AI Index 2026,annual-report,https://hai.stanford.edu/ai-index/2026-ai-index-report,Global AI research industry policy and education,Publisher terms,2026-10-04
+epoch-models,Epoch AI model database,dataset,https://epoch.ai/data/ai-models,Notable and frontier model developers,CC BY,2026-10-04
+epoch-companies,Epoch AI company database,dataset,https://epoch.ai/data/ai-companies,Foundation model companies,CC BY,2026-10-04
+neurips,NeurIPS,conference,https://neurips.cc/,Machine learning research,Publisher terms,2026-10-04
+acm-awards,ACM Awards,professional-source,https://awards.acm.org/,Computer science researchers and awards,Publisher terms,2026-10-04
+best-ai-youtube,Best AI YouTube Channels,curated-list,https://github.com/best-of-ai/best-ai-youtube-channels,AI and ML video sources,Repository license,2026-10-04
+awesome-sciml,Awesome Scientific Machine Learning,curated-list,https://github.com/MartinuzziFrancesco/awesome-scientific-machine-learning,Scientific machine learning resources,Repository license,2026-10-04
+official-sites,Official sites and profiles,primary-sources,https://www.google.com/,Identity focus and social account verification,Individual site terms,2026-10-04
+

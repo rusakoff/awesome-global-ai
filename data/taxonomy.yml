@@ -1,0 +1,132 @@
+version: 1
+entity_types:
+  organizations:
+    - frontier-lab
+    - big-tech-lab
+    - research-institute
+    - academic-center
+    - open-source-community
+    - infrastructure-company
+    - safety-organization
+    - governance-organization
+    - vertical-ai-company
+  media:
+    - youtube-channel
+    - podcast
+    - newsletter
+    - news-site
+    - educational-platform
+  resources:
+    - conference
+    - journal
+    - paper-discovery
+    - model-hub
+    - dataset-hub
+    - benchmark
+    - professional-society
+    - course-library
+tiers:
+  A: Global leader or primary reference
+  B: Major international or regional institution
+  C: Authoritative specialist resource
+  D: Emerging project tracked for breadth
+  Reference: Resource that should not be ranked competitively
+status:
+  - active
+  - historical
+  - inactive
+focus_tags:
+  - 3d
+  - agriculture
+  - foundation-models
+  - llm
+  - multimodal
+  - nlp
+  - speech
+  - computer-vision
+  - generative-ai
+  - reinforcement-learning
+  - robotics
+  - autonomous-systems
+  - ai-agents
+  - coding
+  - ml-systems
+  - hardware
+  - open-source
+  - ai-safety
+  - alignment
+  - interpretability
+  - responsible-ai
+  - governance
+  - ai-policy
+  - ai-ethics
+  - ai-for-science
+  - computational-biology
+  - healthcare
+  - drug-discovery
+  - climate
+  - education
+  - cybersecurity
+  - legal
+  - finance
+  - creative-tools
+  - image-generation
+  - video-generation
+  - audio-generation
+  - search
+  - data
+  - benchmarks
+  - ml-theory
+  - probabilistic-ml
+  - causal-inference
+  - human-computer-interaction
+  - ai-tools
+  - applied-ai
+  - artificial-intelligence
+  - audio
+  - china-ai
+  - cloud
+  - collaboration
+  - community
+  - competitions
+  - computational-intelligence
+  - computer-science
+  - control
+  - datasets
+  - deep-learning
+  - discussion
+  - distributed-computing
+  - document-ai
+  - enterprise-ai
+  - graph-ml
+  - industrial-ai
+  - industry
+  - inference
+  - model-evaluation
+  - model-hub
+  - models
+  - multi-agent-systems
+  - multilingual
+  - open-access
+  - open-review
+  - optimization
+  - pattern-recognition
+  - peer-review
+  - privacy
+  - recommender-systems
+  - representation-learning
+  - research
+  - research-papers
+  - scientific-ml
+  - security
+  - simulation
+  - social-impact
+  - spatiotemporal-ml
+  - startups
+  - statistics
+  - technology
+  - video-understanding
+  - visualization
+  - decentralized-ai
+  - edge-ai
+  - world-models
