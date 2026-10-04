@@ -18,6 +18,51 @@ TITLES = {
     "resources": "Scientific resources",
 }
 
+README_SECTIONS = {
+    "organizations": {
+        "icon": "🏢",
+        "title": "Organizations",
+        "intro": (
+            "Frontier labs, university centers, open-source communities, infrastructure "
+            "providers, robotics teams, policy groups, and specialized AI companies."
+        ),
+    },
+    "people": {
+        "icon": "🧠",
+        "title": "Researchers and leaders",
+        "intro": (
+            "Researchers, engineers, founders, and policy leaders whose work has shaped "
+            "modern artificial intelligence."
+        ),
+    },
+    "media": {
+        "icon": "🎙️",
+        "title": "Media and education",
+        "intro": (
+            "Technical YouTube channels, podcasts, newsletters, courses, and research "
+            "explainers for following and learning AI."
+        ),
+    },
+    "resources": {
+        "icon": "🔬",
+        "title": "Scientific resources",
+        "intro": (
+            "Paper indexes, model and dataset hubs, benchmarks, conferences, journals, "
+            "and other infrastructure for serious research."
+        ),
+    },
+}
+
+ACCOUNT_LABELS = [
+    ("🌐", "Website", "website"),
+    ("⌨️", "GitHub", "github"),
+    ("▶️", "YouTube", "youtube"),
+    ("𝕏", "X", "x"),
+    ("💼", "LinkedIn", "linkedin"),
+    ("🤗", "Hugging Face", "huggingface"),
+    ("🎓", "Scholar", "scholar"),
+]
+
 
 def row_key(row: dict[str, str]) -> tuple[int, str]:
     return TIER_ORDER.get(row["tier"], 99), row["name"].casefold()
@@ -41,6 +86,57 @@ def inferred_people_category(row: dict[str, str]) -> str:
     return "Other AI research"
 
 
+def display_kind(value: str) -> str:
+    acronyms = {"ai": "AI", "ml": "ML", "nlp": "NLP"}
+    return " ".join(
+        acronyms.get(word, word.title()) for word in value.replace("-", " ").split()
+    )
+
+
+def readme_account_links(row: dict[str, str]) -> str:
+    return " · ".join(
+        f"[{icon} {label}]({row[field]})"
+        for icon, label, field in ACCOUNT_LABELS
+        if row.get(field)
+    )
+
+
+def readme_metadata(row: dict[str, str], entity_type: str) -> str:
+    items = [f"📍 {md(row['country'])}"]
+    if entity_type == "people" and row.get("affiliation"):
+        items.append(f"🏛️ {md(row['affiliation'])}")
+    if entity_type == "media" and row.get("language"):
+        items.append(f"💬 {md(row['language'])}")
+    if row.get("kind"):
+        items.append(f"🧩 {md(display_kind(row['kind']))}")
+    tier = row["tier"]
+    items.append("📚 Reference" if tier == "Reference" else f"⭐ Tier {tier}")
+    return " · ".join(items)
+
+
+def readme_entry(row: dict[str, str], entity_type: str) -> list[str]:
+    topics = " · ".join(f"`{md(tag)}`" for tag in split_tags(row["focus"]))
+    return [
+        f"- **{link(row['name'], row['website'])}** — {md(row['description'])}  ",
+        f"  {readme_metadata(row, entity_type)}  ",
+        f"  {readme_account_links(row)}  ",
+        f"  🏷️ {topics}",
+        "",
+    ]
+
+
+def grouped_rows(
+    rows: list[dict[str, str]], entity_type: str
+) -> dict[str, list[dict[str, str]]]:
+    grouped: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        category = row.get("category") or (
+            inferred_people_category(row) if entity_type == "people" else "Other"
+        )
+        grouped[category].append(row)
+    return grouped
+
+
 def build_catalog(catalog: dict[str, list[dict[str, str]]]) -> str:
     total = sum(len(rows) for rows in catalog.values())
     lines = [
@@ -53,10 +149,7 @@ def build_catalog(catalog: dict[str, list[dict[str, str]]]) -> str:
     ]
     for entity_type, rows in catalog.items():
         lines.extend([f"## {TITLES[entity_type]}", ""])
-        grouped: dict[str, list[dict[str, str]]] = defaultdict(list)
-        for row in rows:
-            category = row.get("category") or (inferred_people_category(row) if entity_type == "people" else "Other")
-            grouped[category].append(row)
+        grouped = grouped_rows(rows, entity_type)
         for category in sorted(grouped):
             lines.extend([f"### {md(category)}", ""])
             if entity_type == "people":
@@ -104,56 +197,103 @@ def build_readme(catalog: dict[str, list[dict[str, str]]]) -> str:
     people = len(catalog["people"])
     media = len(catalog["media"])
     resources = len(catalog["resources"])
-    return f"""# Awesome Global AI
+    snapshot_date = max(
+        row["verified_at"] for _, row in all_rows(catalog) if row.get("verified_at")
+    )
+    lines = [
+        "# Awesome Global AI",
+        "",
+        "A verified, structured, and browsable directory of leading AI organizations, "
+        "researchers, scientific resources, media, and official social accounts from around the world.",
+        "",
+        f"**{total} entries:** {orgs} organizations · {people} people · "
+        f"{media} media sources · {resources} scientific resources.",
+        "",
+        f"> Snapshot verified on {snapshot_date}. This is a curated discovery directory, "
+        "not a definitive ranking.",
+        "",
+        "## Explore the catalog",
+        "",
+        f"- [🏢 Organizations — {orgs}](#organizations)",
+        f"- [🧠 Researchers and leaders — {people}](#researchers-and-leaders)",
+        f"- [🎙️ Media and education — {media}](#media-and-education)",
+        f"- [🔬 Scientific resources — {resources}](#scientific-resources)",
+        "",
+        "Each name opens the primary website. The icon links lead directly to official "
+        "profiles on GitHub, YouTube, X, LinkedIn, Hugging Face, or Google Scholar. "
+        "Topic tags make narrow specialties easy to scan.",
+        "",
+        "**Tier guide:** ⭐ **A** — field-defining · **B** — major contributor · "
+        "**C** — authoritative specialist · **D** — emerging project · "
+        "📚 **Reference** — research infrastructure that is not ranked competitively.",
+        "",
+        "---",
+        "",
+    ]
 
-A verified and structured directory of leading AI organizations, researchers, scientific resources, media, and official social accounts from around the world.
+    anchors = {
+        "organizations": "organizations",
+        "people": "researchers-and-leaders",
+        "media": "media-and-education",
+        "resources": "scientific-resources",
+    }
+    for entity_type, rows in catalog.items():
+        section = README_SECTIONS[entity_type]
+        lines.extend(
+            [
+                f'<a id="{anchors[entity_type]}"></a>',
+                "",
+                f"## {section['icon']} {section['title']}",
+                "",
+                f"{section['intro']} **{len(rows)} entries.**",
+                "",
+            ]
+        )
+        grouped = grouped_rows(rows, entity_type)
+        for category in sorted(grouped):
+            category_rows = sorted(grouped[category], key=row_key)
+            lines.extend([f"### {md(category)} ({len(category_rows)})", ""])
+            for row in category_rows:
+                lines.extend(readme_entry(row, entity_type))
+        lines.extend(["[↑ Back to catalog navigation](#explore-the-catalog)", "", "---", ""])
 
-**{total} entries:** {orgs} organizations · {people} people · {media} media sources · {resources} scientific resources.
-
-> Snapshot verified on 2026-10-04. This is a curated discovery directory rather than a definitive ranking.
-
-## Browse
-
-- **[Full catalog](CATALOG.md)** — organizations, people, media, conferences, journals, benchmarks, and databases.
-- **[Statistics](docs/STATS.md)** — coverage by entity type, region, country, tier, and focus.
-- **[Methodology](docs/METHODOLOGY.md)** — inclusion, tiers, verification, and maintenance.
-- **[Sources](docs/SOURCES.md)** and **[editorial notes](docs/EDITORIAL_NOTES.md)** — discovery inputs and snapshot limitations.
-- **[Русская справка](docs/README.ru.md)**.
-- **[Canonical data](data/)** — reusable CSV files and a generated combined JSON export.
-
-## Scope
-
-The directory includes frontier model labs, Big Tech research teams, universities, independent institutes, open-source communities, AI infrastructure, robotics, AI for science, safety and governance organizations, researchers, YouTube channels, podcasts, newsletters, conferences, journals, paper discovery tools, model hubs, datasets, and benchmarks.
-
-Each entry separates its **entity type** from its **focus tags**, making the data useful for both people and software. Social links are attached to their owning entity instead of being duplicated as standalone recommendations.
-
-## Quality model
-
-- **A:** global leader or field-defining contributor.
-- **B:** major international or regional contributor.
-- **C:** authoritative specialist.
-- **D:** emerging project tracked for breadth.
-- **Reference:** infrastructure for research discovery that should not be ranked competitively.
-
-Every accepted entry has an official or primary verification URL and a verification date. Unresolved suggestions go to `data/candidates.csv`.
-
-## Validate and regenerate
-
-```bash
-python3 scripts/validate_catalog.py
-python3 scripts/generate_catalog.py
-```
-
-Optional live website probe:
-
-```bash
-python3 scripts/validate_catalog.py --check-links
-```
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions should add primary sources and avoid promotional language. The catalog data is available under [CC BY 4.0](LICENSE).
-"""
+    lines.extend(
+        [
+            "## Data, methodology, and contributing",
+            "",
+            "The README is generated from the canonical CSV files, so the human-readable "
+            "directory and reusable data stay synchronized.",
+            "",
+            "- [CSV and combined JSON data](data/)",
+            "- [Alternative table view](CATALOG.md)",
+            "- [Coverage statistics](docs/STATS.md)",
+            "- [Selection and verification methodology](docs/METHODOLOGY.md)",
+            "- [Discovery sources](docs/SOURCES.md) and "
+            "[editorial notes](docs/EDITORIAL_NOTES.md)",
+            "- [Русская справка](docs/README.ru.md)",
+            "",
+            "Every accepted entry has an official or primary verification URL and a "
+            "verification date. Unresolved suggestions go to `data/candidates.csv`.",
+            "",
+            "### Validate and regenerate",
+            "",
+            "```bash",
+            "python3 scripts/validate_catalog.py",
+            "python3 scripts/generate_catalog.py",
+            "```",
+            "",
+            "For an optional live website probe, run "
+            "`python3 scripts/validate_catalog.py --check-links`.",
+            "",
+            "### Contributing",
+            "",
+            "See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions should add primary "
+            "sources and avoid promotional language. The catalog data is available under "
+            "[CC BY 4.0](LICENSE).",
+            "",
+        ]
+    )
+    return "\n".join(lines)
 
 
 def main() -> None:

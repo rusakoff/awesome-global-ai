@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from catalog_lib import FILES, REQUIRED_COMMON, all_rows, load_catalog  # noqa: E402
+from catalog_lib import FILES, REQUIRED_COMMON, ROOT, all_rows, load_catalog, md  # noqa: E402
 
 
 class CatalogTests(unittest.TestCase):
@@ -30,7 +30,12 @@ class CatalogTests(unittest.TestCase):
     def test_catalog_is_substantial(self):
         self.assertGreaterEqual(sum(len(rows) for rows in self.catalog.values()), 250)
 
+    def test_readme_contains_every_catalog_entry(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for entity_type, row in all_rows(self.catalog):
+            expected_link = f"[{md(row['name'])}]({row['website']})"
+            self.assertIn(expected_link, readme, f"README missing {entity_type}:{row['id']}")
+
 
 if __name__ == "__main__":
     unittest.main()
-
