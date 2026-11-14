@@ -6278,6 +6278,25 @@
     "entity_type": "media"
   },
   {
+    "id": "aihot",
+    "name": "AIHOT",
+    "kind": "news-site",
+    "category": "News and analysis",
+    "country": "China",
+    "language": "Chinese",
+    "focus": "foundation-models;research-papers;industry",
+    "tier": "D",
+    "website": "https://aihot.news/",
+    "youtube": "",
+    "x": "",
+    "github": "",
+    "status": "active",
+    "verified_at": "2026-11-14",
+    "verification_url": "https://aihot.news/",
+    "description": "Chinese-language AI industry news and daily briefings with links to original sources.",
+    "entity_type": "media"
+  },
+  {
     "id": "synced",
     "name": "Synced",
     "kind": "news-site",

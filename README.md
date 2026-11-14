@@ -4,15 +4,15 @@
 
 A verified, structured, and browsable directory of leading AI organizations, researchers, scientific resources, media, and official social accounts from around the world.
 
-**382 entries:** 175 organizations · 103 people · 47 media sources · 57 scientific resources.
+**383 entries:** 175 organizations · 103 people · 48 media sources · 57 scientific resources.
 
-> Snapshot verified on 2026-10-04. This is a curated discovery directory, not a definitive ranking.
+> Snapshot verified on 2026-11-14. This is a curated discovery directory, not a definitive ranking.
 
 ## Explore the catalog
 
 - [Organizations — 175](#organizations)
 - [Researchers and leaders — 103](#researchers-and-leaders)
-- [Media and education — 47](#media-and-education)
+- [Media and education — 48](#media-and-education)
 - [Scientific resources — 57](#scientific-resources)
 
 Each name opens the primary website. Additional links lead directly to official profiles on GitHub, YouTube, X, LinkedIn, Hugging Face, or Google Scholar. Topic tags make narrow specialties easy to scan.
@@ -1469,7 +1469,7 @@ Researchers, engineers, founders, and policy leaders whose work has shaped moder
 
 ## Media and education
 
-Technical YouTube channels, podcasts, newsletters, courses, and research explainers for following and learning AI. **47 entries.**
+Technical YouTube channels, podcasts, newsletters, courses, and research explainers for following and learning AI. **48 entries.**
 
 ### AI for science (1)
 
@@ -1520,7 +1520,7 @@ Technical YouTube channels, podcasts, newsletters, courses, and research explain
   [YouTube](https://www.youtube.com/@NoPriorsPodcast) · [X](https://x.com/NoPriorsPod)  
   Topics: `foundation-models` · `startups` · `ml-systems`
 
-### News and analysis (8)
+### News and analysis (9)
 
 - **[Import AI](https://jack-clark.net/)** — Influential newsletter summarizing AI research policy and industry developments.  
   United States · English · Newsletter · Tier A  
@@ -1561,6 +1561,10 @@ Technical YouTube channels, podcasts, newsletters, courses, and research explain
   United States · English · Newsletter · Tier B  
   [X](https://x.com/TheSequenceAI)  
   Topics: `deep-learning` · `industry` · `research-papers`
+
+- **[AIHOT](https://aihot.news/)** — Chinese-language AI industry news and daily briefings with links to original sources.  
+  China · Chinese · News Site · Tier D  
+  Topics: `foundation-models` · `research-papers` · `industry`
 
 ### Product news (1)
 
