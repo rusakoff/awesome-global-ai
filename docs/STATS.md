@@ -1,6 +1,6 @@
 # Catalog statistics
 
-Generated catalog size: **382 entries**.
+Generated catalog size: **383 entries**.
 
 ## Entity types
 
@@ -8,7 +8,7 @@ Generated catalog size: **382 entries**.
 |---|---:|
 | Organizations | 175 |
 | Researchers and leaders | 103 |
-| Media and education | 47 |
+| Media and education | 48 |
 | Scientific resources | 57 |
 
 ## Tiers
@@ -19,6 +19,7 @@ Generated catalog size: **382 entries**.
 | B | 99 |
 | Reference | 57 |
 | C | 2 |
+| D | 1 |
 
 ## Regions
 
@@ -43,8 +44,8 @@ Generated catalog size: **382 entries**.
 | United States | 214 |
 | United Kingdom | 29 |
 | Multinational | 24 |
+| China | 18 |
 | Canada | 17 |
-| China | 17 |
 | Germany | 11 |
 | France | 8 |
 | Switzerland | 7 |
@@ -77,7 +78,7 @@ Generated catalog size: **382 entries**.
 
 | Value | Entries |
 |---|---:|
-| foundation-models | 81 |
+| foundation-models | 82 |
 | computer-vision | 75 |
 | robotics | 68 |
 | ml-theory | 68 |
@@ -97,16 +98,16 @@ Generated catalog size: **382 entries**.
 | ai-policy | 20 |
 | healthcare | 19 |
 | autonomous-systems | 17 |
+| research-papers | 17 |
 | data | 16 |
 | model-evaluation | 16 |
-| research-papers | 16 |
 | computational-biology | 15 |
 | hardware | 14 |
 | ai-ethics | 14 |
 | speech | 13 |
 | governance | 12 |
+| industry | 12 |
 | probabilistic-ml | 11 |
-| industry | 11 |
 | interpretability | 9 |
 | coding | 9 |
 | benchmarks | 9 |
